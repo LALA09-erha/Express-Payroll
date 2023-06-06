@@ -1,0 +1,47 @@
+<div id="loading" class="justify-content-center text-center" style="display:none; position: fixed;left: 0;width: 100%;height: 100vh;z-index: 999;backdrop-filter: blur(5px); "><img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_632/04de2e31234507.564a1d23645bf.gif" alt=""> <h1>LOADING....</h1></div>
+
+<!-- Page Heading -->
+<!-- <a href="/adduser" class="btn btn-primary mb-3">Tambah User</a> -->
+
+<!-- pada javascript sb- admin-2 -minn   -->
+<button  onclick="downloaddatatransaksi()" <% if (data.length ==0) { %>disabled<% } %> class="btn btn-primary mb-3">Download Data ➤</button>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Data Verified</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+    
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>ID TRANSAKSI</th>
+                        <th>JENIS_TRANSAKSI</th>
+                        <th>JUMLAH_TRANSAKSI</th>                                                                       
+                        <th>TANGGAL</th>                                                        
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>ID TRANSAKSI</th>
+                        <th>JENIS_TRANSAKSI</th>
+                        <th>JUMLAH_TRANSAKSI</th>                                                        
+                        <th>TANGGAL</th>                                                        
+                    </tr>
+                </tfoot>
+                <tbody>                    
+                    <% temp.forEach(dt => { %>
+                        <tr>
+                            <td><%- dt.IDTDETAIL %> </td>
+                            <td><%- dt.JENIS_TRANSAKSI %></td>
+                            <td><%- dt.JUMLAH_TRANSAKSI %></td>
+                            <td><%- dt.TGL_TRANSAKSI %></td>
+                        </tr>            
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

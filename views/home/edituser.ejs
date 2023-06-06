@@ -1,0 +1,38 @@
+<!-- Page Heading -->
+<a href="/users" class="btn btn-primary mb-3">Kembali</a>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="p-5">
+        <div class="text-center">
+            <h1 class="h4 text-gray-900 mb-4">Edit an Account!</h1>
+        </div>
+        <form class="user" action='/prosesedit' method="post">
+            <div class="form-group row">
+                <input type="hidden" value="<%- user.IDUSER %>" name="iduser">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="email" class="form-control form-control-user" id="email" name="email"
+                        placeholder="Input your Email" required value="<%- user.EMAIL %>">
+                </div>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" id="username" name="username"
+                        placeholder="Input your Username" required value="<%- user.USERNAME %>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control form-control-user" id="password" name="password"
+                        placeholder="Input your Password" required value="<%- user.PASSWORD %>">                
+            </div>
+            <div class="form-group">
+                <select name="role" id="role" class="form-control">
+                    <option  value="Admin" <% if (user.ROLE == 'Admin') { %>
+                     selected
+                    <% } %>>Admin</option>
+                    <option  value="Guest"  <% if (user.ROLE == 'Guest') { %>
+                        selected
+                       <% } %>>Guest</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-user btn-block"> EDIT USER</button>
+    </div>
+</div>
