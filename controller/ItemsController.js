@@ -165,7 +165,7 @@ exports.edit = function (req,res){
     var id = parseInt(new_data.id);
     var data = req.cookies.temp;
     var temp_baru = []
-    var maxTransaksi = 1000000;
+    var maxTransaksi = 1000000000;
     var checkTransaksi = 0;
 
     // check apakah data berubah atau tidak
@@ -858,11 +858,19 @@ exports.transaksi = function(req,res){
         var showdata = Items.showdataVerified();
         showdata.then(function(result){
             var data = []
+            var newtime = []
             for(var i = 0 ; i<result.length ; i++){
                 var tanggal = result[i].SESSIONID;
                 // get tanggal by session id
                 var date = new Date(tanggal * 1000);
                 var formattedTime = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+                var timenew = (date.getMonth() + 1) + "-" + date.getFullYear()
+                // cek apakah bulan dan tahun ada di array newtime
+                if(newtime.includes(timenew) == false){
+                    newtime.push(timenew)
+                }
+
+
                 data.push({
                     IDTDETAIL : result[i].IDTDETAIL,
                     JENIS_TRANSAKSI : result[i].JENIS_TRANSAKSI,
@@ -870,13 +878,16 @@ exports.transaksi = function(req,res){
                     TGL_TRANSAKSI : formattedTime,
                 })
             }
+
+           
             // render view
             res.render('home/transaksi',{
                 title : "Home | Transaction Data",
                 layout : 'home/tamplate/main',
                 data :req.cookies.data,
                 temp : data,
-                msg : req.session.massage
+                newtime : newtime,
+                                msg : req.session.massage
             })
         }).catch(function(err){})
     }else{
@@ -886,21 +897,48 @@ exports.transaksi = function(req,res){
 
 // download data transaksi_detail yang sudah diverifikasi
 exports.downloadtransaksi = function(req,res){
+    // mengambil data dari form post
+    // console.log(data['bulan'])
+    
     if(req.cookies.data.ROLE == 'Admin'){
         var showdata = Items.showdataVerified();
+        var bulan = req.body;
         showdata.then(function(result){
             var data = []
-            for(var i = 0 ; i<result.length ; i++){
-                var tanggal = result[i].SESSIONID;
-                // get tanggal by session id
-                var date = new Date(tanggal * 1000);
-                var formattedTime = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-                data.push({
-                    IDTDETAIL : result[i].IDTDETAIL,
-                    JENIS_TRANSAKSI : result[i].JENIS_TRANSAKSI,
-                    JUMLAH_TRANSAKSI : result[i].JUMLAH_TRANSAKSI,
-                    TGL_TRANSAKSI : formattedTime,
-                })
+            if(bulan['bulan'] == 'semua'){
+                for(var i = 0 ; i<result.length ; i++){
+                    var tanggal = result[i].SESSIONID;
+                    // get tanggal by session id
+                    var date = new Date(tanggal * 1000);
+                    var formattedTime = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+                    data.push({
+                        IDTDETAIL : result[i].IDTDETAIL,
+                        JENIS_TRANSAKSI : result[i].JENIS_TRANSAKSI,
+                        MATA_UANG : "Rp.",
+                        JUMLAH_TRANSAKSI : result[i].JUMLAH_TRANSAKSI,
+                        TGL_TRANSAKSI : formattedTime,
+                    })
+                }
+            }else{
+                for(var i = 0 ; i<result.length ; i++){
+                    var tanggal = result[i].SESSIONID;
+                    // get tanggal by session id
+                    var date = new Date(tanggal * 1000);
+                    var formattedTime = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+                    var newtime = (date.getMonth() + 1) + "-" + date.getFullYear()
+                    // cek apakah bulan dan tahun sama dengan data yang dipilih
+                    // console.log(newtime)
+                    // console.log(data['bulan'])
+                    if(newtime == bulan['bulan']){
+                        data.push({
+                            IDTDETAIL : result[i].IDTDETAIL,
+                            JENIS_TRANSAKSI : result[i].JENIS_TRANSAKSI,
+                            MATA_UANG : "Rp.",
+                            JUMLAH_TRANSAKSI : result[i].JUMLAH_TRANSAKSI,
+                            TGL_TRANSAKSI : formattedTime,
+                        })
+                    }
+                }
             }
             // dari data yang sudah diambil diatas, dijadikan file excel dan di download
 

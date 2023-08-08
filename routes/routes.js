@@ -110,6 +110,19 @@ module.exports = function(app){
     // proses download data transaksi
     app.route('/downloaddatatransaksi').post(Items.downloadtransaksi);
 
+    // proses forgot password
+    app.route('/forgot').get(User.forgotpassword);
+
+
+    // proses forgot password
+    app.route('/prosesforgot').post(User.prosesforgotpassword);
+
+    // proses view reset password
+    app.route('/reset/:email').get(User.resetpassword);
+
+    // proses reset password
+    app.route('/prosesreset').post(User.prosesresetpassword);
+
 
     // untuk mengembalikan jika tidak ada route yang menagani 
     app.route('/:route/(*)').get(Items.notfound);

@@ -42,6 +42,7 @@
                         <th>CHECK DATA</th>               
                         <th>ID TRANSAKSI</th>
                         <th>JENIS_TRANSAKSI</th>
+                        <th>MATA UANG</th>
                         <th>JUMLAH_TRANSAKSI</th>                                                                       
                         <th>ACTION</th>                                                        
                     </tr>
@@ -51,6 +52,7 @@
                         <th>CHECK DATA</th>               
                         <th>ID TRANSAKSI</th>
                         <th>JENIS_TRANSAKSI</th>
+                        <th>MATA UANG</th>
                         <th>JUMLAH_TRANSAKSI</th>                                                        
                         <th>ACTION</th>                                                        
                     </tr>
@@ -61,6 +63,7 @@
                             <td><input class="form-control d-inline-block" type="checkbox" name="cek" id="cek" value="<%- data.IDTDETAIL %>"/></td>                            
                             <td><%- data.IDTDETAIL %> </td>
                             <td><%- data.JENIS_TRANSAKSI %></td>
+                            <td>Rp.</td>
                             <td><%- data.JUMLAH_TRANSAKSI %></td>
                             <td><a href="/deleteunverify/<%- data.IDTDETAIL %>" onclick="return confirm('Are U Sure?')" class="btn btn-danger">Delete</a></td>
                         </tr>            

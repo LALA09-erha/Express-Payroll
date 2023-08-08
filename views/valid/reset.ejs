@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC">
+<style>
+body, html {height: 100%}
+body,h1,h2,h3,h4,h5,h6 {font-family: "Amatic SC", sans-serif}
+.menu {display: none}
+.bgimg {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("/w3images/pizza.jpg");
+  min-height: 90%;
+}
+</style>
+</head>
+<body>
+  <% if(typeof errors !== 'undefined'){ %>
+    <div class="alert" style="text-align: center; color:red;"><% errors.forEach(err => { %>
+      <p><%- err.msg %> </p>
+    <% }) %></div>
+    <% } %> 
+  <% if(typeof msg !== 'undefined'){ %>
+    <div class="alert" style="text-align: center; color:orange">
+      <p><%- msg %> </p>
+
+    </div>
+    
+    <% } %> 
+<!-- Contact -->
+<div class="w3-container w3-padding-64 w3-blue-grey w3-grayscale-min w3-xlarge">
+  <div class="w3-content">
+    <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">Reset Password</h1>
+    <form action="/prosesreset"  method="post">
+       
+      <input type="hidden" name="email" value="<%- email %>">
+      <p><input class="w3-input w3-padding-16 w3-border" type="password" placeholder="Masukkan password" required name="password"></p>
+      <p><input class="w3-input w3-padding-16 w3-border" type="password" placeholder="Konfirmasi password" required name="password2"></p>
+
+      <p><button class="w3-button w3-light-grey w3-block" type="submit">SEND MESSAGE</button></p>
+    </form>
+  </div>
+</div>
+
+<script>
+// Tabbed Menu
+function openMenu(evt, menuName) {
+  var i, x, tablinks;
+  x = document.getElementsByClassName("menu");
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < x.length; i++) {
+     tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
+  }
+  document.getElementById(menuName).style.display = "block";
+  evt.currentTarget.firstElementChild.className += " w3-red";
+}
+document.getElementById("myLink").click();
+</script>
+
+</body>
+</html>

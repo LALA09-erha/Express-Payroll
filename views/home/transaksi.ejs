@@ -3,8 +3,39 @@
 <!-- Page Heading -->
 <!-- <a href="/adduser" class="btn btn-primary mb-3">Tambah User</a> -->
 
+
+  <!-- download Modal-->
+  <div class="modal fade" id="downloaddata" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Download File .CSV</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+              </button>
+          </div>
+          <form action="/downloaddatatransaksi"  method="post" name="downloaddata"   enctype="multipart/form-data">            
+              <label for="bulan">Pilih Bulan:</label>
+              <select class="form-control form-control-user"  id="bulan" name="bulan" required>
+                <option value="semua">Semua Data</option>
+                <!-- foreach data newtime -->
+                <% newtime.forEach(data => { %>
+                  <option value="<%- data %>"><%- data %></option>
+                <% }) %>
+              </select>
+          <div class="modal-footer">
+                  <input type="submit" class="btn btn-primary"  name="kirim" value="Kirim">
+              </form>
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          </div>
+      </div>
+  </div>
+</div>
+ 
 <!-- pada javascript sb- admin-2 -minn   -->
-<button  onclick="downloaddatatransaksi()" <% if (data.length ==0) { %>disabled<% } %> class="btn btn-primary mb-3">Download Data ➤</button>
+<!-- <button  onclick="downloaddatatransaksi()" <% if (data.length ==0) { %>disabled<% } %> class="btn btn-primary mb-3">Download Data ➤</button> -->
+<a href="#" data-toggle="modal" data-target="#downloaddata" class="btn btn-success mb-3">Download Data ➤</a>
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
@@ -19,6 +50,7 @@
                     <tr>
                         <th>ID TRANSAKSI</th>
                         <th>JENIS_TRANSAKSI</th>
+                        <th>MATA UANG</th>
                         <th>JUMLAH_TRANSAKSI</th>                                                                       
                         <th>TANGGAL</th>                                                        
                     </tr>
@@ -27,6 +59,7 @@
                     <tr>
                         <th>ID TRANSAKSI</th>
                         <th>JENIS_TRANSAKSI</th>
+                        <th>MATA UANG</th>
                         <th>JUMLAH_TRANSAKSI</th>                                                        
                         <th>TANGGAL</th>                                                        
                     </tr>
@@ -36,6 +69,7 @@
                         <tr>
                             <td><%- dt.IDTDETAIL %> </td>
                             <td><%- dt.JENIS_TRANSAKSI %></td>
+                            <td>Rp.</td>
                             <td><%- dt.JUMLAH_TRANSAKSI %></td>
                             <td><%- dt.TGL_TRANSAKSI %></td>
                         </tr>            

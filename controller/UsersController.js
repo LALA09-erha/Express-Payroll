@@ -4,6 +4,7 @@ const response = require('../config/response');
 const connect = require('../database/connect');
 const server = require('../server/server');
 const Users = require('../models/UsersModels');
+const nodemailer = require("nodemailer");
 const bcrypt = require('bcrypt');
 
 // view for login
@@ -19,6 +20,123 @@ exports.loginview = function(req,res){
         }) ;
     }
 }
+
+
+
+// forgot password
+exports.forgotpassword = function(req,res){
+    if(req.cookies.user != undefined){
+        return res.redirect('/');
+    }else{
+        res.render('valid/forgot' , {
+            title : "Forgot Password",
+            layout: 'valid/template/main',
+            foto : 'productivity.jpg',
+            msg : req.session.massage
+        }) ;
+    }
+}
+
+// forgot password
+exports.prosesforgotpassword = function(req,res){
+    
+    var email = req.body.email;
+    var url = req.protocol + '://' + req.get('host') ;
+    connect.connection.query("SELECT * from users where EMAIL=?",[email],function(error,row,fields){
+        if(error){
+            req.session.massage = error;
+            return res.redirect('/forgot')
+        }else{
+            if(row.length>0)
+            {
+                 //// Proses pengiriman email
+                var transporter = nodemailer.createTransport({
+                    host: 'smtppro.zoho.com',
+                    port: 465,
+                    secure: true, // true for 465, false for other ports
+                    auth: {
+                    user: 'erhacaca@zohomail.com',
+                    pass: 'ADLv2eEd3aDd'
+                    }
+                    });
+                
+                    var mailOptions = {
+                        from: '"APP Payroll" <erhacaca@zohomail.com>',
+                        to:email,
+                        subject: 'Forgot Password',
+                        text: 'Forgot Password ',                
+                        // make simple tamplate for email with box and color
+                        html: '<div style="background-color: #f2f2f2; padding: 20px; font-family: Arial, Helvetica, sans-serif;">'+
+                        '<div style="background-color: white; padding: 20px; border-radius: 10px;">'+
+                        '<h1 style="text-align: center;">Password Action</h1>'+
+                        '<p style="text-align: center;">Click link  <b>'+url+'/reset/'+email+'</p>'+
+                        '<p style="text-align: center;"></p>'+
+                        '<p style="text-align: center;">Thank you</p>'+
+                        '</div>'+
+                        '</div>'
+        
+                    };
+
+                    transporter.sendMail(mailOptions, function(error, info){
+                        if (error) {
+                            req.session.massage = error;
+                            return res.redirect('/forgot')
+                        } else {
+                            req.session.massage = 'Check Email Anda!';      
+                            return res.redirect('/forgot')
+                        }
+                    }
+                );
+            }
+            else{
+                req.session.massage = 'Forgot Password Gagal!';
+                return res.redirect('/forgot')
+            }
+        }
+    })
+}
+
+// reset password
+exports.resetpassword = function(req,res){
+
+    var email = req.params.email;
+
+    if(req.cookies.user != undefined){
+        return res.redirect('/');
+    }else{
+        res.render('valid/reset' , {
+            title : "Reset Password",
+            layout: 'valid/template/main',
+            foto : 'productivity.jpg',
+            msg : req.session.massage,
+            email : email
+        }) ;
+    }
+}
+
+// reset password
+exports.prosesresetpassword = function(req,res){
+    var email = req.body.email;
+    var password = req.body.password;
+    var password2 = req.body.password2;
+
+    if(password != password2){
+        req.session.massage = 'Password tidak sama!';
+        return res.redirect('/reset/'+email)
+    }else{
+        connect.connection.query("UPDATE users set PASSWORD=? where EMAIL=?",[password,email],function(error,row,fields){
+            if(error){
+                req.session.massage = error;
+                return res.redirect('/reset/'+email)
+            }else{
+                req.session.massage = 'Reset Password Sukses!';      
+                return res.redirect('/login')
+            }
+        })
+    }
+    
+}
+
 
 
 

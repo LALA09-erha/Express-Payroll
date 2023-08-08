@@ -64,6 +64,7 @@
                         <th>Check</th>
                         <th>No</th>
                         <th>Jenis Transaksi</th>
+                        <th>Mata Uang</th>
                         <th>Jumlah Transaksi</th>                        
                         <th>Action</th>               
                     </tr>
@@ -73,6 +74,7 @@
                         <th>Check</th>
                         <th>No</th>
                         <th>Jenis Transaksi</th>
+                        <th>Mata Uang</th>
                         <th>Jumlah Transaksi</th>         
                         <th>Action</th>               
                     </tr>
@@ -85,6 +87,7 @@
                                     <td><input class="form-control d-inline-block" type="checkbox" name="cek" id="cek" value="<%- data.Id %>"/></td>                            
                                     <td><%- data.Id %> </td>
                                     <td><%- data.Jenis_Transaksi %></td>
+                                    <td>Rp.</td>
                                     <td><%- data.Jumlah_Transaksi %></td>
                                     <td><a href="#" data-toggle="modal" data-target="#editmodal<%- data.Id %>" class="btn btn-warning">Edit</a>  <a href="/delete/<%- data.Id %>" onclick="return confirm('Are U Sure?')" class="btn btn-danger">Delete</a></td>
                                 </tr>            
